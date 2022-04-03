@@ -8,7 +8,7 @@ import static java.util.stream.Collectors.*;
 import static java.util.Map.Entry.*;
 import java.util.Set;
 import java.util.Iterator;
-
+import java.util.*;
 
 
 /**Motuba MP **/
@@ -29,6 +29,7 @@ class Ranks
 			
 			//map for displaying sorted results
 			Map<String, Integer> sortedWin = new HashMap<>();
+			Map<String, Integer> AlphabeticalysortedWin = new HashMap<>();
 			
 			Map<String, Integer> sortedLose = new HashMap<>();
 			
@@ -65,7 +66,11 @@ class Ranks
 			+ " TeamGoals then <enter>. Do this once more for the opponent....." + "\n" );
 			 
 			 
-				
+			
+			
+			
+			
+			
 				//Entering team names 
 			    //System.out.print("You can now enter " + teams.length + "team names, each confirmed by the enter key"  +  "\n");
 			    for(int i = 0; i < matches; i++) {
@@ -205,6 +210,12 @@ class Ranks
 			    sortedWin = winTable.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).collect(toMap(Map.Entry::getKey, Map.Entry::getValue , (e1 , e2) -> e2, LinkedHashMap::new)) ;
 			    
 			    
+		
+			    		
+			    		
+			    
+			    
+			    
 			    
 			    
 			    /**sort map by value**/
@@ -217,10 +228,10 @@ class Ranks
 			    
 			    
 			    /**sort map by value**/
-			    sortedLose = loseTable.entrySet().stream().sorted(comparingByValue()).collect(toMap(e -> e.getKey(), e -> e.getValue(),(e1 , e2) -> e2, LinkedHashMap::new)) ;
+			  //  sortedLose = loseTable.entrySet().stream().sorted(comparingByValue()).collect(toMap(e -> e.getKey(), e -> e.getValue(),(e1 , e2) -> e2, LinkedHashMap::new)) ;
 			    
-			  //  /**sort map in decreasing order of value**/
-			 //   sortedLose = winTable.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).collect(toMap(Map.Entry::getKey, Map.Entry::getValue , (e1 , e2) -> e2, LinkedHashMap::new)) ;
+			    /**sort map in decreasing order of value**/
+			  //  sortedLose = loseTable.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).collect(toMap(Map.Entry::getKey, Map.Entry::getValue , (e1 , e2) -> e2, LinkedHashMap::new)) ;
 			    
 			    
 			    
@@ -230,30 +241,45 @@ class Ranks
 			
 				int count = matches ;
 				System.out.println("Ranked table.") ;
+				//sortAlphabetical(sortedWin) ;
 			        for (Entry<String, Integer> pair : sortedWin.entrySet()) {
 			        	
 			        	
 			        	
 			        	
-			        //	if(sortedDraw.containsKey(pair.getKey())) {
+			        	if(sortedDraw.containsKey(pair.getKey())) {
 			        		
-			        	//	sortedDraw.remove(pair.getKey(), pair.getValue()) ;
-			       		  //  sortedWin.put(pair.getKey(), pair.getValue()) ;
+			        		//If the sorted win contains a team with two draws
+			        		
+			        		if(pair.getValue() >=2 ) {
+			        			
+			        			sortedDraw.remove(pair.getKey()) ;
+					       		sortedWin.replace(pair.getKey(), pair.getValue() + 2  ) ;
+			        		}
+			        		else
+			        			
+			        			
+			        		{
+			        			sortedDraw.remove(pair.getKey()) ;
+					       		sortedWin.replace(pair.getKey(), pair.getValue() + 1  ) ;
+			        		}
+			        		
+			        	
 			         		
 			         		
 			         		
 			        		
-                         //   System.out.println(  ((matches + 1) - count) + "." + String.format( "%s, points: %s", pair.getKey(), pair.getValue())); 
+                            System.out.println(  ((matches + 1) - count) + "." + String.format( "%s, points: %s", pair.getKey(), pair.getValue())); 
 				        	
-			              //  count = count - 1 ;	
+			                count = count - 1 ;	
 			        		
-			        //	}
-			        //	else
-			        //	{
+			        	}
+			        	else
+			        	{
 			        		System.out.println(  ((matches + 1) - count) + "." + String.format( "%s, points: %s", pair.getKey(), pair.getValue())); 
 				        	
 			                count = count - 1 ;	
-			        //	}
+			        	}
 			        	
 			        	
 			        		
@@ -263,6 +289,8 @@ class Ranks
 			        
 			        
 			        /**Display a sorted draw table**/ 
+			//	sortAlphabetical(sortedDraw) ;
+				
 			        for (Entry<String, Integer> pair : sortedDraw.entrySet()) {
 			        	
 		        		System.out.println(  ((matches + 1) - count) + "." + String.format( "%s, points: %s", pair.getKey(), pair.getValue())); 
@@ -276,103 +304,90 @@ class Ranks
 			        
 			        /**Display a sorted lose table**/ 
 			        
-			
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		        
-			      //  Iterator<String> lostiterator = sortedLose.keySet().iterator() ;
-			        
-			     //   Iterator<String> drawiterator = sortedDraw.keySet().iterator() ;
-			        
-			     //   while(lostiterator.hasNext()) {
+			        for (Entry<String, Integer> pair : sortedDraw.entrySet()) {
 			        	
-			        //	while(drawiterator.hasNext()) {
-			        		
-			        	//	String lost = lostiterator.next() ;
-			        	//	String drew = drawiterator.next() ;
-			        		
-			        	//	if(lost.contains(drew)) {
-			        	//		lostiterator.remove();
-			        	//	};
-			        		
-			        //	}
-			        				        
-			        	//for (Entry<String, Integer> pair : sortedDraw.entrySet()) {
-			        		
-			        	//	System.out.println(  ((matches + 1) - count) + "." + String.format( "%s, points: %s", pair.getKey(), pair.getValue())); 
-				        	
-				        //    count = count - 1 ;
-			        		
-			        //	}
-			        	
-			        	
-			        	
-			        	
-			     //   }
-			        
-			        
-			        
-			        
-			        
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		        
-			        // getting entrySet() into Set
-			       Set<Entry<String , Integer>> loseentrySet = sortedLose.entrySet() ;
-			        Set<Entry<String , Integer>> drawentrySet = sortedDraw.entrySet() ;
-			        
-			        
-			        // Collection Iterator
-			        Iterator<Entry<String , Integer>> loseitr = loseentrySet.iterator() ;
-			        Iterator<Entry<String , Integer>> drawitr = drawentrySet.iterator() ;
-			        
-			        while(loseitr.hasNext()) {
-			        	
-			        	Entry<String , Integer> loseentry = loseitr.next();
-			        	String loseKey = loseentry.getKey() ;
-			        	
-			        	Entry<String , Integer> drawentry = drawitr.next();
-			        	String drawKey = drawentry.getKey() ;
-			        	
-			        	
-			        	if(loseKey == drawKey ) {
-			        		loseitr.remove();
-			        	}
-			        	
-			        	
-			        		System.out.println(  ((matches + 1) - count) + "." + String.format( "%s, points: %s", loseentry.getKey(), loseentry.getValue())); 
-				      	
-				            count = count - 1 ;
-			        	
-			        	
-			        		
-			        	
+  			          
+				         if(sortedLose.containsKey(pair.getKey())) {
+				        	  
+				        	 sortedLose.remove(pair.getKey() ) ;
+				        	  
+				       	  //  System.out.println(  ((matches + 1) - count) + "." + String.format( "%s, points: %s", pair.getKey(), pair.getValue())); 
+					        	
+				          //  count = count - 1 ;
+				    		 			        	  
+				         }
+				         
 			        }
 			        
-	//////////////////////////////////////////////	     //////////////////////////////////////////////////////////////////////////////////////////////////////
-			     //   for (Entry<String, Integer> pair : sortedLose.entrySet()) {
+			        
+			        for (Entry<String, Integer> pair : sortedLose.entrySet()) {  
 			        	
-			        			          
-			         // if(sortedDraw.containsKey(pair.getKey())) {
-			        	  
-			        //	  loseTable.remove(pair.getKey() , pair.getValue()) ;
-			        	  
-			        //	  System.out.println(  ((matches + 1) - count) + "." + String.format( "%s, points: %s", pair.getKey(), pair.getValue())); 
-				        	
-			          //    count = count - 1 ;
-			    		 			        	  
-			      //    }
-			       //   else {
-			        	  
-			       // 	  System.out.println(  ((matches + 1) - count) + "." + String.format( "%s, points: %s", pair.getKey(), pair.getValue())); 
-				        	
-			        //      count = count - 1 ; 
-			        	  
-			        	  
-			       //   }
-			        	  
-			        	  		        	  
-		    //	}
-			    			  		       
+				        	  
+				        	 System.out.println(  ((matches + 1) - count) + "." + String.format( "%s, points: %s", pair.getKey(), pair.getValue())); 
+					        	
+				             count = count - 1 ; 
+				        	  
+				        	  
+			        }     
+				        	  
+				        	  		        	  
 			  
-					    
+				       
+			        
+			        
+			        
+			        
+			        
+			
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		        
+                      //sort lose table again
+			    //    for (Entry<String, Integer> pair : sortedLose.entrySet()) {
+			        	
+			        			        	
+			        //	if(sortedDraw.containsKey(pair.getKey())) {
+			        		
+			        //      sortedLose.remove(pair.getKey()) ;
+			       
+			         					        		
+			        //	}
+			        	
+			     //   }	
+			     //   
+			        
+			        //Display  lose	
+			     //   for (Entry<String, Integer> pair : sortedLose.entrySet()) { 	
+			      //  		System.out.println(  ((matches + 1) - count) + "." + String.format( "%s, points: %s", pair.getKey(), pair.getValue())); 
+				        	
+			      //          count = count - 1 ;	
+			        	
+			        	
+			     //   } 	
+			        		
+			    		 	
+			    	
+			        
+			    		        			  		       
+			  
+          	}		    
     	}
+    	
+    	
+    	public static void sortAlphabetical(Map<String , Integer> map1) {
+    		int count = 5 ;
+			//TreeMap to store values of HashMap
+			TreeMap<String , Integer> sortedAplhabetical = new TreeMap<>() ;
+
+			
+			//Copy all data from hashMap into treeMap
+			sortedAplhabetical.putAll(map1);
+			
+			//Display the TreeMap which is naturally sorted
+			for (Map.Entry<String , Integer> entry : sortedAplhabetical.entrySet())
+				System.out.println(  ((5 + 1) - count) + "." + String.format( "%s, points: %s", entry.getKey(), entry.getValue())); 
+		      	
+	            count = count - 1 ;
+			
+		
     	
     	
     }
